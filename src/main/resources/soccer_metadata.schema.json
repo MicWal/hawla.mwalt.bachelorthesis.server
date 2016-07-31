@@ -1,0 +1,150 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "MetaData",
+    "description": "Meta data to initialize game environment.",
+	
+	"type" : "object",
+	"properties" : {
+	
+		"balls" : {
+			"type" : "array",
+			"items" : { 
+				"type" : "object",
+				"properties" : {
+					"id": { 
+						"type": "integer" 
+					}
+				},
+				"minItems": 1,
+				"required" : ["id"]
+			},
+			"minItems": 1
+		},
+
+		"teams": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"teamname": {
+						"type": "string"
+					},
+					"members": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"left leg": {
+									"type": "integer"
+								},
+								"right leg": {
+									"type": "integer"
+								},
+								"left arm": {
+									"type": "integer"
+								},
+								"right arm": {
+									"type": "integer"
+								}
+							},
+							"required": ["name", "left leg", "right leg"]
+						}
+					}
+				},
+				"required": ["teamname", "members"]
+			},
+			"minItems": 2,
+			"maxItems": 2
+		},
+		
+		"referees": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"left leg": {
+						"type": "integer"
+					},
+					"right leg": {
+						"type": "integer"
+					}
+				},
+				"required": ["name", "left leg", "right leg"]
+			}
+		},
+		
+		"field": {
+			"type": "object",
+			"properties": {
+				"left bottom": {
+					"type": "object",
+					"properties": {
+						"x": {
+						  "type": "integer"
+						},
+						"y": {
+						  "type": "integer"
+						},
+						"z": {
+						  "type": "integer"
+						}
+					},
+					"required": ["x", "y", "z"]
+				},
+				"right bottom": {
+					"type": "object",
+					"properties": {
+						"x": {
+						  "type": "integer"
+						},
+						"y": {
+						  "type": "integer"
+						},
+						"z": {
+						  "type": "integer"
+						}
+					},
+					"required": ["x", "y", "z"]
+				},
+				"left top": {
+					"type": "object",
+					"properties": {
+						"x": {
+						  "type": "integer"
+						},
+						"y": {
+						  "type": "integer"
+						},
+						"z": {
+						  "type": "integer"
+						}
+					},
+					"required": ["x", "y", "z"]
+				},
+				"right top": {
+					"type": "object",
+					"properties": {
+						"x": {
+						  "type": "integer"
+						},
+						"y": {
+						  "type": "integer"
+						},
+						"z": {
+						  "type": "integer"
+						}
+					},
+					"required": ["x", "y", "z"]
+				}
+			},
+			"required": ["left bottom", "right bottom", "left top", "right top"]
+		}
+	},
+	"required": ["balls", "teams", "referees", "field"]	
+}
