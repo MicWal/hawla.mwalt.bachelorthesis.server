@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.landshut.haw.edu.model.Client;
-import de.landshut.haw.edu.model.TransmissionObject;
 import de.landshut.haw.edu.util.Constants;
 import de.landshut.haw.edu.util.MetaDataProperties;
+import de.landshut.haw.edu.util.ResultLine;
+import de.landshut.haw.edu.util.TransmissionObject;
 
 
 /** Description of ClientHandler <br>
@@ -16,7 +17,7 @@ import de.landshut.haw.edu.util.MetaDataProperties;
  * @author Michael Walter
  * @version 1.0 
  */
-public class ClientHandler extends Thread{
+public class ClientHandler extends Thread {
 	
 	private ArrayList<Client> clients = null;
 
@@ -43,6 +44,24 @@ public class ClientHandler extends Thread{
 		for( Client client: clients ) {
 			client.send(obj);
 		}
+		
+		obj = null;
+	}
+	
+	
+	/**
+	 * Send string data to all clients.
+	 * @param data Content to send
+	 */
+	public void sendToAllClients(String transmissionStatus, ArrayList<ResultLine> data)  {
+		
+		TransmissionObject obj = new TransmissionObject(transmissionStatus, data);
+		
+		for( Client client: clients ) {
+			client.send(obj);
+		}
+		
+		obj = null;
 	}
 	
 	

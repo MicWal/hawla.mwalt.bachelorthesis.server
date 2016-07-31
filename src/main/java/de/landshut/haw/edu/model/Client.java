@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import de.landshut.haw.edu.util.ErrorCodes;
+import de.landshut.haw.edu.util.TransmissionObject;
 
 /**
  * Client handles the output stream of the socket and 
@@ -52,8 +53,12 @@ public class Client {
     public void send(TransmissionObject data) {
     	
     	try {
-//    		System.out.println("send object " + data.getTransmission_status() );
+//  		System.out.println("send object " + data.getTransmission_status() );
 			outObj.writeObject(data);
+			outObj.reset();
+			
+			data.unreferenceArrayList();;
+			data = null;
 			
 		} catch (IOException e) {
 			System.err.println("Error when sending object to client. Closing connection.");

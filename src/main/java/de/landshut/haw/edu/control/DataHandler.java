@@ -1,6 +1,9 @@
 package de.landshut.haw.edu.control;
 
+import java.util.ArrayList;
+
 import de.landshut.haw.edu.util.Constants;
+import de.landshut.haw.edu.util.ResultLine;
 import de.landshut.haw.edu.util.ServerProperties;
 
 /**
@@ -16,6 +19,7 @@ public class DataHandler extends Thread {
 	private boolean activeTransmission;
 	
 	private ServerProperties props;
+	
 	
 	public DataHandler(DatabaseHandler dbHandler, ClientHandler cHandler, ServerProperties props) {
 		System.out.println("DataHandler");
@@ -45,7 +49,11 @@ public class DataHandler extends Thread {
 		
 		final int SECONDS_POW = 1000;
 		
+		long amountSend = 0;
+		
 		String[] data;
+		
+//		ArrayList<ResultLine> data;
 		
 		long oldTimestamp = dbHandler.getTimestamp(Constants.SQL_STARTTIME);
 
@@ -57,13 +65,13 @@ public class DataHandler extends Thread {
 		long elapsedTime = Long.parseLong(props.getProperty("elapsedTime"));
 		
 		long snapshotSystemTime;
-		
-		
+				
 		cHandler.sendToAllClients(Constants.START_TRANSMISSION, dbHandler.getSQLHeaderData());
 		
 		snapshotSystemTime = System.nanoTime();
 		
 		do {
+
 			cHandler.clearClosedClients();
 			
 //			elapsedTime = (System.nanoTime() - snapshotSystemTime) * SECONDS_POW;
@@ -72,22 +80,30 @@ public class DataHandler extends Thread {
 			
 			newTimestamp =  oldTimestamp + elapsedTime;
 			
-			data = dbHandler.getSQLData(oldTimestamp, newTimestamp);
+			data = dbHandler.getSQLDataStringArray(oldTimestamp, newTimestamp);
+//			data = dbHandler.getSQLDataAsArrayList(oldTimestamp, newTimestamp);
 		
 			oldTimestamp = newTimestamp;
 
 			if(newTimestamp > endTimestamp) {
 				activeTransmission = false;
 				
-			} else if(data.length > 0) { // only send if data contains actual content
+			} else if(data != null && data.length > 0) { // only send if data contains actual content
+				amountSend += data.length;
 				cHandler.sendToAllClients(Constants.ACTIVE_TRANSMISSION, data);
+				//cHandler.sendToAllClients(Constants.ACTIVE_TRANSMISSION, null);
 			}
+			
+//			data.clear();
+//			data = null;
 			
 		} while(activeTransmission);
 		
 		// send closing data object
 		System.out.println("Sending '" + Constants.END_TRANSMISSION + "' signal to clients.");
-		cHandler.sendToAllClients(Constants.END_TRANSMISSION, null);
+		cHandler.sendToAllClients(Constants.END_TRANSMISSION, "".split(""));
+		
+		System.out.println("Sendcount: " + amountSend);
 		
 		// close client sockets
 		System.out.print("Attempting to close clients...");

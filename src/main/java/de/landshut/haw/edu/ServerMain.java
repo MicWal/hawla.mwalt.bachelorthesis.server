@@ -34,9 +34,8 @@ public class ServerMain {
 			
 			
 			// establish connection to database
-			DatabaseHandler dbHandler = new DatabaseHandler();
-			
-			dbHandler.init(properties);
+			DatabaseHandler dbHandler = new DatabaseHandler(properties);
+
 			
 			
 			// management of clients

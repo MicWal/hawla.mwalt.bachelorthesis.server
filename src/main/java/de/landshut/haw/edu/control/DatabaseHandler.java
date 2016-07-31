@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import de.landshut.haw.edu.util.Constants;
 import de.landshut.haw.edu.util.ErrorCodes;
+import de.landshut.haw.edu.util.ResultLine;
 import de.landshut.haw.edu.util.ServerProperties;
 
 /** 
@@ -21,9 +22,13 @@ public class DatabaseHandler {
 	
 	private PreparedStatement pstmt = null;
 	
+	private ServerProperties props;
 	
-	public DatabaseHandler () {
+	public DatabaseHandler (ServerProperties props) {
 		System.out.println("DatabaseHandler created");
+		
+		this.props = props;
+		init();
 	}
 	
 	
@@ -32,7 +37,7 @@ public class DatabaseHandler {
 	 * establish a connection to the database.
 	 * @param props Holds information about SQL driver and credentials
 	 */
-	public void init(ServerProperties props) {
+	private void init() {
 		
 		// load DB driver
 		try {
@@ -59,7 +64,7 @@ public class DatabaseHandler {
 	/** 
 	 * 	Load data from DB
 	 */
-	public String[] getSQLData(long oldDate, long newDate) {
+	public String[] getSQLDataStringArray(long oldDate, long newDate) {
 		
 		String[] result = null;
 		
@@ -84,6 +89,34 @@ public class DatabaseHandler {
 		
 		return result;
 	}
+	
+	public ArrayList<ResultLine> getSQLDataAsArrayList(long oldDate, long newDate) {		
+		
+		ArrayList<ResultLine> result;
+		
+		try {
+			pstmt = con.prepareStatement(Constants.SQL_STATEMENT);
+			
+			pstmt.setLong(1, oldDate);
+			pstmt.setLong(2, newDate);
+
+			rs = pstmt.executeQuery();
+						
+			result = prepareDataToResultLineArrayList(rs);
+			
+			rs.close();
+			
+			pstmt.close();
+			
+			return result;
+			
+		} catch ( SQLException e ) {
+			System.err.println("getSQLData SQLException.");
+			System.exit(ErrorCodes.LOAD_SQL_ERR);
+		} 
+		return null;
+	}
+	
 	
 	
 	/** 
@@ -195,6 +228,62 @@ public class DatabaseHandler {
 		} 
 	
 		return data.toArray(new String[data.size()]);
+	}
+	
+	
+	/**
+	 * Write content of ResultSet into an ArrayList
+	 * @param rs
+	 * @return
+	 */
+	private ArrayList<ResultLine> prepareDataToResultLineArrayList(ResultSet rs) {
+		
+		ArrayList<ResultLine> data = new ArrayList<ResultLine>();
+		
+		ResultLine tmp;
+
+		try {
+			while ( rs.next() ) {
+				
+				tmp = new ResultLine();
+					
+				tmp.setId(rs.getInt(props.getProperty("ID_COLUMN")));
+				
+				tmp.setTimestamp(rs.getLong(props.getProperty("ID_COLUMN")));
+				
+				tmp.setX(rs.getDouble(props.getProperty("X_COLUMN")));
+				
+				tmp.setY(rs.getDouble(props.getProperty("Y_COLUMN")));
+				
+				tmp.setZ(rs.getDouble(props.getProperty("Z_COLUMN")));
+				
+				tmp.setAcceleration(rs.getDouble(props.getProperty("ACCELERATION_COLUMN")));
+				
+				tmp.setAccelerationX(rs.getDouble(props.getProperty("ACCELERATION_X_COLUMN")));
+				
+				tmp.setAccelerationY(rs.getDouble(props.getProperty("ACCELERATION_Y_COLUMN")));
+				
+				tmp.setAccelerationZ(rs.getDouble(props.getProperty("ACCELERATION_Z_COLUMN")));
+				
+				tmp.setVelocityX(rs.getDouble(props.getProperty("VELOCITY_X_COLUMN")));
+				
+				tmp.setVelocityY(rs.getDouble(props.getProperty("VELOCITY_Y_COLUMN")));
+				
+				tmp.setVelocityZ(rs.getDouble(props.getProperty("VELOCITY_Z_COLUMN")));
+				
+				data.add(tmp);
+				
+//				tmp = null;
+			}
+			
+			rs.close();
+			
+		} catch ( SQLException e ) {
+			System.err.println("Prepare SQL data error.");
+			System.exit(ErrorCodes.PREPARE_SQL_ERR);
+		} 
+	
+		return data;
 	}
 
 	

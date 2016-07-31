@@ -33,6 +33,8 @@ public class Constants {
 	
 	public final static String SQL_HEADER_INFO = "SELECT * FROM " + SQL_TABLE + " LIMIT 1";
 	
+	
+	
 	/*
 	 * 				Miscellaneous
 	 */
@@ -49,7 +51,9 @@ public class Constants {
 
 	public final static int REQUIRED_ARGUMENTS = 1;
 	
-	public final static long SERIAL_VERSION_UID = -820413593466554404L;
+	public final static long TRANSMISSION_VERSION_UID = -820413593466554404L;
+	
+	public static final long RESULTLINE_VERSION_UID = -820413593466551000L;
 	
 	//TODO when empty change MIN_NUMBER_GAMETYPE and MAX_NUMBER_GAMETYPE
 
@@ -63,5 +67,7 @@ public class Constants {
 	public final static int MAX_NUMBER_GAMETYPE = 1;
 
 	public static final String DELIMETER = " ";
+
+
 
 }
