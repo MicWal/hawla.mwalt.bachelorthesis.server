@@ -16,7 +16,6 @@ import org.json.JSONTokener;
 import de.landshut.haw.edu.ServerMain;
 
 
-
 /**
  * Load JSON meta data from a file and parse JSON it against JSON schema.
  * @author Michael
@@ -56,24 +55,31 @@ public class MetaDataProperties {
 		ArrayList<String> string = new ArrayList<String>();
 		
 	 	try(FileReader fileReader = new FileReader(fileName);
-        		BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+	 		BufferedReader bufferedReader = new BufferedReader(fileReader);) {
 
  	        String line = null;
  	        
  	        while ((line = bufferedReader.readLine()) != null) {
+ 	        	
  	        	string.add(line);
+ 	        	
  	        }
  	        
         } catch (FileNotFoundException e) {
+        	
         	System.err.println("Properties file " + fileName + " not found");
+        	
 			System.exit(ErrorCodes.FILE_NOT_FOUND_ERR);
 			
+			
 		} catch (IOException e) {
+			
 			System.err.println("Buffered Reader I/O error occured");
+			
 			System.exit(ErrorCodes.IO_ERR);
+			
 		}
        
-        
         return string.toArray(new String[string.size()]);
     }
 
@@ -101,6 +107,7 @@ public class MetaDataProperties {
 		} while(!correctInput);
 		
 		return Integer.parseInt(value);
+		
 	}
 	
 	
@@ -135,7 +142,9 @@ public class MetaDataProperties {
             StringBuilder builder = new StringBuilder();
             
             for(String s : metadataRaw) {
+            	
             	builder.append(s);
+            	
             }
 
             JSONObject jobj = new JSONObject(builder.toString());
@@ -143,12 +152,18 @@ public class MetaDataProperties {
             schema.validate(jobj); // throws a ValidationException if this object is invalid
             
     	} catch (IOException e) {
+    		
     		System.err.println("Schema file " + schemaFile + " not found");
+    		
     		System.exit(ErrorCodes.FILE_NOT_FOUND_ERR);
     		
+    		
 		} catch (ValidationException e) {
+			
 			System.err.println("Meta data not error prone or invalid against selected schema.");
+			
 			System.exit(ErrorCodes.METADATA_INVALID);
+			
 		}
     }
 
@@ -164,13 +179,20 @@ public class MetaDataProperties {
 		
 		switch (gameType) {
         	case 1:  
+        		
         		schemaFile = Constants.SOCCER_SCHEMA_FILE;
+        		
                 break;
+                
         	default: 
+        		
         		schemaFile = Constants.SOCCER_SCHEMA_FILE;
+        		
         		break;
 		}
+		
 		return schemaFile;
+		
 	}
 
 	
@@ -180,13 +202,17 @@ public class MetaDataProperties {
 	 * @return Return true if value is a number in the allowed range, else false.
 	 */
 	private boolean isAllowedNumber(String value) {
-	     try {
-	        int x = Integer.parseInt(value);
+	     
+		try {
+	       
+			int x = Integer.parseInt(value);
 	        
-	        return (x >= Constants.MIN_NUMBER_GAMETYPE && x <= Constants.MAX_NUMBER_GAMETYPE);
+			return (x >= Constants.MIN_NUMBER_GAMETYPE && x <= Constants.MAX_NUMBER_GAMETYPE);
 	        
 	     } catch(NumberFormatException e) {
-	        return false;
+	        
+	    	return false;
+	    	 
 	     }
 	 }
 	

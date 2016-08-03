@@ -18,22 +18,28 @@ public class InputHandler {
 		ServerMain.CONSOLE_IN.nextLine();
 	}
 
+	
+	/**
+	 * Wait for server shutdown signal.
+	 */
 	public void waitForCloseServerSignal() {
 		
-		final String keyword= "abort"; 
+		final String keyword= "close"; 
 		
 		boolean notKeyword = true;
 		
 		while(notKeyword) {
-			System.out.println("To close server type 'abort' into console. When still transmitting data connection will properbly closed.");
+			
+			System.out.println("To close server type '" + keyword + "' into console. When still transmitting data connection will properbly closed.");
 
 			String input = ServerMain.CONSOLE_IN.nextLine();
 			
 			if(input.equals(keyword)) {
+				
 				notKeyword = false;
+				
 			}
-		}
-			
+		}	
 	}
 }
 

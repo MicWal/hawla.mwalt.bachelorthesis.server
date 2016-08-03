@@ -1,10 +1,13 @@
 package de.landshut.haw.edu.util;
 
 /**
- * Contains all constant variables.
+ * Contains all constant variables used in this project.
  * @author Michael
  */
 public class Constants {
+	
+	private Constants() {}
+	
 	
 	public final static String START_TRANSMISSION = "START_TRANSMISSION";
 	
@@ -51,19 +54,8 @@ public class Constants {
 
 	public final static int REQUIRED_ARGUMENTS = 1;
 	
-	public final static long TRANSMISSION_VERSION_UID = -820413593466554404L;
-	
-	public static final long RESULTLINE_VERSION_UID = -820413593466551000L;
-	
-	//TODO when empty change MIN_NUMBER_GAMETYPE and MAX_NUMBER_GAMETYPE
-
-	
-	//TODO change to zero when GAME_IDS emtpy
-	//public final static int MIN_NUMBER_GAMETYPE = 0;
 	public final static int MIN_NUMBER_GAMETYPE = 1;
-	
-	//TODO change to zero when GAME_IDS emtpy
-	//public final static int MAX_NUMBER_GAMETYPE = 0;
+
 	public final static int MAX_NUMBER_GAMETYPE = 1;
 
 	public static final String DELIMETER = " ";

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 
 public class TransmissionObject implements Serializable {
 
-	private static final long serialVersionUID = Constants.TRANSMISSION_VERSION_UID;
+	
+	private static final long serialVersionUID = -820413593466554404L;
 	
 	private String transmission_status;
 
 	private String[] content;
 	
 	private ArrayList<ResultLine> rs;
+	
 	
 	
 	public TransmissionObject(String transmission_status, String[] content) {
@@ -31,11 +33,13 @@ public class TransmissionObject implements Serializable {
 	
 	
 	public TransmissionObject(TransmissionObject transObj) {
+		
 		transmission_status = transObj.getTransmission_status();
 		
 		rs = transObj.getRs();
 		
 		content = transObj.content;
+		
 	}
 
 	
@@ -55,9 +59,13 @@ public class TransmissionObject implements Serializable {
 
 
 	public void unreferenceArrayList() {
+		
 		if(rs != null) {
+			
 			rs.clear();
+			
 			rs = null;
+			
 		}	
 	}
 }

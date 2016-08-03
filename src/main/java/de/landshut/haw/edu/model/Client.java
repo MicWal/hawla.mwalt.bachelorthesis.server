@@ -13,6 +13,7 @@ import de.landshut.haw.edu.util.TransmissionObject;
  */
 public class Client {
 
+	
     private Socket socket = null;
         
     private ObjectOutputStream  outObj;
@@ -20,7 +21,9 @@ public class Client {
     private boolean closed;
       
     
+    
     public Client(Socket socket) {
+    	
         System.out.println("Client created");
         
         this.socket = socket;
@@ -28,6 +31,7 @@ public class Client {
         closed = false;
         
         createStream();
+        
     }
 
     
@@ -37,11 +41,15 @@ public class Client {
 	private void createStream() {
 		
 		try {	
+			
 			outObj = new ObjectOutputStream(socket.getOutputStream());
 			
 		} catch (IOException e) {
+			
 			System.err.println("Input/Output stream error");
+			
 			System.exit(ErrorCodes.STREAM_ERR);
+			
 		}
 	}
 
@@ -53,42 +61,57 @@ public class Client {
     public void send(TransmissionObject data) {
     	
     	try {
-//  		System.out.println("send object " + data.getTransmission_status() );
+    		
 			outObj.writeObject(data);
+			
 			outObj.reset();
 			
 			data.unreferenceArrayList();;
+			
 			data = null;
 			
 		} catch (IOException e) {
+			
 			System.err.println("Error when sending object to client. Closing connection.");
+			
 			closeConnection();
+			
 		}
     }
+    
     
     
     /** Description of closeConnection()
 	 * Close streams and then the socket.
 	 */
     public void closeConnection() {
+    	
     	closed = true;
     	
     	try {
+    		
 			outObj.close();
 			
 		} catch (IOException e1) {
+			
 			System.err.println("Closing object stream failed. Client seems to be crashed.");
+			
 		}
     		  	
 	  	if( !socket.isClosed()) {
+	  		
 	  		try {
+	  			
 	  			socket.close();
 	  			
 			} catch (IOException e) {
+				
 				System.err.println("Closing socket failed. Client seems to be crashed.");
+				
 			}
 	  	}
     }
+    
     
     
     /** Description of getSocket()
@@ -100,6 +123,7 @@ public class Client {
 	}
 
 
+	
 	public boolean isClosed() {
 		return closed;
 	}

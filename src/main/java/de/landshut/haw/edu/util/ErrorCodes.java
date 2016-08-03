@@ -1,10 +1,13 @@
 package de.landshut.haw.edu.util;
 
 /**
- * Contains alle error status for System.exit.
+ * Contains all error status for System.exit.
  * @author Michael
  */
 public final class ErrorCodes {
+	
+	private ErrorCodes() {}
+	
 	
 	public final static int CONNECTION_START_ERR = 1;
 	

@@ -16,6 +16,7 @@ import de.landshut.haw.edu.util.ServerProperties;
  */
 public class DatabaseHandler {
 	
+	
 	private Connection con = null;
 	
 	private ResultSet rs = null;
@@ -24,12 +25,18 @@ public class DatabaseHandler {
 	
 	private ServerProperties props;
 	
+	
+	
 	public DatabaseHandler (ServerProperties props) {
+		
 		System.out.println("DatabaseHandler created");
 		
 		this.props = props;
+		
 		init();
+		
 	}
+	
 	
 	
 	/** 
@@ -41,23 +48,30 @@ public class DatabaseHandler {
 		
 		// load DB driver
 		try {
+			
 			Class.forName(props.getProperty("dbDriver"));
 			
 	    } catch ( ClassNotFoundException e ) {
+	    	
 	    	System.err.println( "Driver '" + props.getProperty("dbDriver") + "' not found!" );
+	    	
 	    	System.exit(ErrorCodes.DRIVER_ERR);
+	    	
 	    }
 		
 		// establish a connection
 		try {
+			
 			con = DriverManager.getConnection(
 	    		  props.getProperty("dbUrl"),props.getProperty("dbAccount"), props.getProperty("dbPassword") );
 			
 	    } catch ( SQLException e ) {
+	    	
 			System.err.println( "Establishing connection to database not possible." );
+			
 			System.exit(ErrorCodes.DATABASE_CONNECT_ERR);
-	    }
-		
+			
+	    }	
 	}
 	
 	
@@ -72,6 +86,7 @@ public class DatabaseHandler {
 			pstmt = con.prepareStatement(Constants.SQL_STATEMENT);
 			
 			pstmt.setLong(1, oldDate);
+			
 			pstmt.setLong(2, newDate);
 
 			rs = pstmt.executeQuery();
@@ -83,13 +98,24 @@ public class DatabaseHandler {
 			pstmt.close();
 			
 		} catch ( SQLException e ) {
+			
 			System.err.println("getSQLData SQLException.");
+			
 			System.exit(ErrorCodes.LOAD_SQL_ERR);
+			
 		} 
 		
 		return result;
+		
 	}
 	
+	
+	/**
+	 * Get data from SQL server and return result as array list.
+	 * @param oldDate min search parameter
+	 * @param newDate max search parameter
+	 * @return ArrayList with ResultLine elements
+	 */
 	public ArrayList<ResultLine> getSQLDataAsArrayList(long oldDate, long newDate) {		
 		
 		ArrayList<ResultLine> result;
@@ -98,6 +124,7 @@ public class DatabaseHandler {
 			pstmt = con.prepareStatement(Constants.SQL_STATEMENT);
 			
 			pstmt.setLong(1, oldDate);
+			
 			pstmt.setLong(2, newDate);
 
 			rs = pstmt.executeQuery();
@@ -111,16 +138,22 @@ public class DatabaseHandler {
 			return result;
 			
 		} catch ( SQLException e ) {
+			
 			System.err.println("getSQLData SQLException.");
+			
 			System.exit(ErrorCodes.LOAD_SQL_ERR);
+			
 		} 
+		
 		return null;
+		
 	}
 	
 	
 	
 	/** 
-	 * 	Load column names and return them as a string
+	 * 	Load column names and ordering of elements.
+	 * @return column names as string array 
 	 */
 	public String[] getSQLHeaderData() {
 		
@@ -133,6 +166,7 @@ public class DatabaseHandler {
 		ArrayList<String> information = new ArrayList<String>();
 		
 	    try {
+	    	
 	        stmt = con.createStatement();
 	        
 	        ResultSet rs = stmt.executeQuery(Constants.SQL_HEADER_INFO);
@@ -143,31 +177,33 @@ public class DatabaseHandler {
 	        
 	        //add header
 	        for(int i = 1; i <= columnsNumber; i++) {
+	        	
 	        	string.append(rsmd.getColumnName(i) + Constants.DELIMETER);
+	        	
 	        }
 	        
 	        information.add(string.toString());
 	        
 	        information.add(Constants.SQL_ORDER);
 	        
-//	        string = new StringBuilder();
-//	        
-//	        //add type
-//	        for(int i = 1; i <= columnsNumber; i++) {
-//	        	string.append(rsmd.getColumnType(i) + " ");
-//	        }
-//	        
-//	        information.add(string.toString());
-	        
 	    } catch ( SQLException e ) {
+	    	
 			System.err.println("getSQLHeaderData SQLException.");
+			
 			System.exit(ErrorCodes.PREPARE_SQL_ERR);
+			
 		}
 	    
 	    return information.toArray(new String[information.size()]);
 	}
 	
 	
+	
+	/**
+	 * Get
+	 * @param query
+	 * @return
+	 */
 	public long getTimestamp(String query) {
 		
 		long timestamp = 0;
@@ -273,14 +309,16 @@ public class DatabaseHandler {
 				
 				data.add(tmp);
 				
-//				tmp = null;
 			}
 			
 			rs.close();
 			
 		} catch ( SQLException e ) {
+			
 			System.err.println("Prepare SQL data error.");
+			
 			System.exit(ErrorCodes.PREPARE_SQL_ERR);
+			
 		} 
 	
 		return data;
@@ -292,12 +330,18 @@ public class DatabaseHandler {
 	 * @throws SQLException Closing failed
 	 */
 	public void closeConnection() {
+		
 		try {
+			
 			if(!con.isClosed()) {
+				
 				con.close();
+				
 			}
 		} catch (SQLException e) {
+			
 			System.err.println("Explicit closing of DB connection failed.");
+			
 		}
 	}
 	

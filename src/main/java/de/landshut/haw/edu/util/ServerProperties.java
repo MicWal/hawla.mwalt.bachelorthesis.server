@@ -15,9 +15,11 @@ public class ServerProperties {
 	
 	
 	public ServerProperties() {
+		
 		System.out.println("ServerProperties created");
 		
 		props = new Properties();
+		
 	}
 	
 	
@@ -33,12 +35,17 @@ public class ServerProperties {
 			props.load(inputStream);
 			
 		} catch (FileNotFoundException e) {
+			
 			System.err.println("Properties file " + Constants.CONFIG_FILE + " not found");
+			
 			System.exit(ErrorCodes.FILE_NOT_FOUND_ERR);
 			
 		} catch (IOException e) {
+			
 			System.err.println("Stream closing failed");
+			
 			System.exit(ErrorCodes.STREAM_ERR);
+			
 		}
 	}
 	
@@ -53,9 +60,12 @@ public class ServerProperties {
 		String value = "";
 		
 		if(props.containsKey(key)) {
+			
 			value = props.getProperty(key);
+			
 		}
 		
 		return value;
+		
 	}
 }

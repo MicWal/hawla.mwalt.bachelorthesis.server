@@ -7,6 +7,12 @@ import de.landshut.haw.edu.util.Constants;
 import de.landshut.haw.edu.util.MetaDataProperties;
 import de.landshut.haw.edu.util.ServerProperties;
 
+/**
+ * ServerMain is the starting point of the programm. <br>
+ * 
+ * @author Michael
+ *
+ */
 public class ServerMain {
 
 	public static Scanner CONSOLE_IN = new Scanner(System.in);

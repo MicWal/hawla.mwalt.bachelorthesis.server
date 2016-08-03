@@ -15,6 +15,7 @@ import de.landshut.haw.edu.util.ServerProperties;
  */
 public class ConnectionHandler extends Thread{
 	
+	
 	private ServerSocket serverSocket;
 	
 	private ClientHandler clientHandler;
@@ -30,6 +31,7 @@ public class ConnectionHandler extends Thread{
 	}
 	
 	
+	
 	/**
 	 * Create server socket with given parameters.
 	 * @param props
@@ -39,9 +41,11 @@ public class ConnectionHandler extends Thread{
 		int port;
 			
 		try {
+			
 			port = Integer.parseInt(props.getProperty("port"));
 			
 		} catch (NumberFormatException e) {
+			
             port = Constants.DEFAULT_PORT;
         }
 	
@@ -49,8 +53,11 @@ public class ConnectionHandler extends Thread{
             serverSocket = new ServerSocket(port);
             
         } catch (IOException e) {
+        	
             System.err.println("Could not listen on port: " + port );
+            
             System.exit(ErrorCodes.SERVER_CLOSE_ERR);
+            
         }
 		
 		// start accepting clients
@@ -79,22 +86,30 @@ public class ConnectionHandler extends Thread{
 			Socket clientSocket;
 			
 			try {
+				
 				clientSocket = serverSocket.accept();
 				
 				if(acceptClients) {
+					
 					clientHandler.addClient(clientSocket);
 					
 				}
 				
 			} catch (SocketException e) {
-				//who cares
+				
+				System.err.println("Socket execption. Ignorable error.");
+				
 			} catch (IOException e) {
+				
 				System.err.println("I/O error occured while waiting for a connection");
+				
 				System.exit(ErrorCodes.IO_ERR);
+				
 			}  
         }
 		
 		System.out.println("Stop accepting clients");
+		
 	}
 		
 	
@@ -102,7 +117,9 @@ public class ConnectionHandler extends Thread{
 	 * Stop accepting new client requests.
 	 */
 	public void stopAcceptClients() {
+		
 		acceptClients = false;
+		
 	}
 	
 	
@@ -112,15 +129,18 @@ public class ConnectionHandler extends Thread{
 	public void closeServerSocket() {
 		
 		if(! serverSocket.isClosed()) {
+			
 			try {
+				
 				serverSocket.close();
 				
 			} catch (IOException e) {
+				
 				System.err.println("Can't close server socket");
+				
 				System.exit(ErrorCodes.SOCKET_CLOSE_ERR);
 				
 			}  
 		}
 	}
-	
 }

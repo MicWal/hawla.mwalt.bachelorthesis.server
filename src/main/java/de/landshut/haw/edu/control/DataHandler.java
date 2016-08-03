@@ -1,9 +1,6 @@
 package de.landshut.haw.edu.control;
 
-import java.util.ArrayList;
-
 import de.landshut.haw.edu.util.Constants;
-import de.landshut.haw.edu.util.ResultLine;
 import de.landshut.haw.edu.util.ServerProperties;
 
 /**
@@ -49,7 +46,9 @@ public class DataHandler extends Thread {
 		
 		final int SECONDS_POW = 1000;
 		
-		long amountSend = 0;
+		int countBeforePrintln = 0;
+
+		int count = 0;
 		
 		String[] data;
 		
@@ -70,6 +69,10 @@ public class DataHandler extends Thread {
 		
 		snapshotSystemTime = System.nanoTime();
 		
+		if(props.getProperty("countBeforePrintln").matches((Constants.REG_EXP))){
+			countBeforePrintln = Integer.parseInt(props.getProperty("countBeforePrintln"));
+		}
+		
 		do {
 
 			cHandler.clearClosedClients();
@@ -81,39 +84,54 @@ public class DataHandler extends Thread {
 			newTimestamp =  oldTimestamp + elapsedTime;
 			
 			data = dbHandler.getSQLDataStringArray(oldTimestamp, newTimestamp);
-//			data = dbHandler.getSQLDataAsArrayList(oldTimestamp, newTimestamp);
+
 		
 			oldTimestamp = newTimestamp;
 
 			if(newTimestamp > endTimestamp) {
+				
 				activeTransmission = false;
 				
 			} else if(data != null && data.length > 0) { // only send if data contains actual content
-				amountSend += data.length;
+				
+				count++;
+				
 				cHandler.sendToAllClients(Constants.ACTIVE_TRANSMISSION, data);
-				//cHandler.sendToAllClients(Constants.ACTIVE_TRANSMISSION, null);
+				
 			}
 			
-//			data.clear();
-//			data = null;
+			if(count == countBeforePrintln && countBeforePrintln > 0) {
+				
+				System.out.println(count + " data objects send.");
+				
+				count = 0;
+				
+			}
+			
 			
 		} while(activeTransmission);
 		
 		// send closing data object
 		System.out.println("Sending '" + Constants.END_TRANSMISSION + "' signal to clients.");
+		
 		cHandler.sendToAllClients(Constants.END_TRANSMISSION, "".split(""));
 		
-		System.out.println("Sendcount: " + amountSend);
 		
 		// close client sockets
 		System.out.print("Attempting to close clients...");
+		
 		cHandler.closeClients();
+		
 		System.out.println("closed");
+		
 		
 		// close connection to database
 		System.out.print("Attempting to close database connection... ");
+		
 		dbHandler.closeConnection();
+		
 		System.out.println("closed.");
+		
 	}
 
 
