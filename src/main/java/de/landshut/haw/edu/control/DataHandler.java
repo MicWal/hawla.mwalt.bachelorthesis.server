@@ -132,6 +132,8 @@ public class DataHandler extends Thread {
 		
 		System.out.println("closed.");
 		
+		System.out.println("Enter keyword to shutdown server.");
+		
 	}
 
 
