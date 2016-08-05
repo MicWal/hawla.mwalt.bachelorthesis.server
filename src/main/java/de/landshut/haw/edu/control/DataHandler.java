@@ -9,6 +9,7 @@ import de.landshut.haw.edu.util.ServerProperties;
  */
 public class DataHandler extends Thread {
 	
+	
 	private DatabaseHandler dbHandler;
 	
 	private ClientHandler cHandler;
@@ -16,6 +17,7 @@ public class DataHandler extends Thread {
 	private boolean activeTransmission;
 	
 	private ServerProperties props;
+	
 	
 	
 	public DataHandler(DatabaseHandler dbHandler, ClientHandler cHandler, ServerProperties props) {
@@ -31,6 +33,7 @@ public class DataHandler extends Thread {
 	}
 
 	
+	
 	/**
 	 * Initialize sending with a START_TRANSMISSION to all clients.<br>
 	 * Then get data from database and send it to all clients.<br>
@@ -39,6 +42,8 @@ public class DataHandler extends Thread {
 	public void dataTransmision() {
 		start();
 	}
+	
+	
 	
 	
 	@Override
@@ -54,9 +59,9 @@ public class DataHandler extends Thread {
 		
 //		ArrayList<ResultLine> data;
 		
-		long oldTimestamp = dbHandler.getTimestamp(Constants.SQL_STARTTIME);
+		long oldTimestamp = dbHandler.getMinTimestamp();
 
-		long endTimestamp = dbHandler.getTimestamp(Constants.SQL_ENDTTIME);
+		long endTimestamp = dbHandler.getMaxTimestamp();
 
 		long newTimestamp;
 		
@@ -136,6 +141,7 @@ public class DataHandler extends Thread {
 		
 	}
 
+	
 
 	public synchronized void setActiveTransmission(boolean activeTransmission) {
 		this.activeTransmission = activeTransmission;

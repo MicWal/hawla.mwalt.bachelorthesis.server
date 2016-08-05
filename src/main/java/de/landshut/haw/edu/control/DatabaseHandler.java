@@ -75,6 +75,7 @@ public class DatabaseHandler {
 	}
 	
 	
+	
 	/** 
 	 * 	Load data from DB
 	 */
@@ -83,7 +84,7 @@ public class DatabaseHandler {
 		String[] result = null;
 		
 		try {
-			pstmt = con.prepareStatement(Constants.SQL_STATEMENT);
+			pstmt = con.prepareStatement(props.getProperty("SQL_STATEMENT"));
 			
 			pstmt.setLong(1, oldDate);
 			
@@ -110,6 +111,7 @@ public class DatabaseHandler {
 	}
 	
 	
+	
 	/**
 	 * Get data from SQL server and return result as array list.
 	 * @param oldDate min search parameter
@@ -121,7 +123,7 @@ public class DatabaseHandler {
 		ArrayList<ResultLine> result;
 		
 		try {
-			pstmt = con.prepareStatement(Constants.SQL_STATEMENT);
+			pstmt = con.prepareStatement(props.getProperty("SQL_STATEMENT"));
 			
 			pstmt.setLong(1, oldDate);
 			
@@ -169,7 +171,7 @@ public class DatabaseHandler {
 	    	
 	        stmt = con.createStatement();
 	        
-	        ResultSet rs = stmt.executeQuery(Constants.SQL_HEADER_INFO);
+	        ResultSet rs = stmt.executeQuery(props.getProperty("SQL_HEADER_INFO"));
 	        
 	        rsmd = rs.getMetaData();
 	        
@@ -184,7 +186,7 @@ public class DatabaseHandler {
 	        
 	        information.add(string.toString());
 	        
-	        information.add(Constants.SQL_ORDER);
+	        information.add(props.getProperty("SQL_ORDER"));
 	        
 	    } catch ( SQLException e ) {
 	    	
@@ -200,11 +202,11 @@ public class DatabaseHandler {
 	
 	
 	/**
-	 * Get
+	 * Get maximum timestamp.
 	 * @param query
 	 * @return
 	 */
-	public long getTimestamp(String query) {
+	public long getMaxTimestamp() {
 		
 		long timestamp = 0;
 		
@@ -213,7 +215,7 @@ public class DatabaseHandler {
 	    try {
 	        stmt = con.createStatement();
 	        
-	        ResultSet rs = stmt.executeQuery(query);
+	        ResultSet rs = stmt.executeQuery(props.getProperty("SQL_ENDTTIME"));
 	        
 	        while ( rs.next() ) {
 	        	timestamp = rs.getLong(1);
@@ -226,6 +228,42 @@ public class DatabaseHandler {
 	    
 	    return timestamp;
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Get minimum timestamp.
+	 * @param query
+	 * @return
+	 */
+	public long getMinTimestamp() {
+		
+		long timestamp = 0;
+		
+		Statement stmt = null;
+		
+	    try {
+	        stmt = con.createStatement();
+	        
+	        ResultSet rs = stmt.executeQuery(props.getProperty("SQL_STARTTIME"));
+	        
+	        while ( rs.next() ) {
+	        	timestamp = rs.getLong(1);
+			}        
+	        
+	    } catch ( SQLException e ) {
+			System.err.println( "getTimestamp SQLException." );
+			System.exit(ErrorCodes.PREPARE_SQL_ERR);
+		}
+	    
+	    return timestamp;
+	}
+	
+	
+	
+	
 	
 	
 	/** Description of prepareData(ResultSet rs)

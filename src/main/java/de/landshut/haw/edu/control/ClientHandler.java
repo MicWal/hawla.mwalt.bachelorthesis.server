@@ -24,6 +24,7 @@ public class ClientHandler extends Thread {
 	
 	private MetaDataProperties metadata;
 	
+	
 	/**
 	 * Constructor.
 	 * @param metadata

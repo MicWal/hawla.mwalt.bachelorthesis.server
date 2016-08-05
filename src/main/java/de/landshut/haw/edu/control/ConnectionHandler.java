@@ -64,6 +64,8 @@ public class ConnectionHandler extends Thread{
 		acceptClients();
 	}
 
+	
+	
 	/**
 	 * start accepting client
 	 */
@@ -73,6 +75,7 @@ public class ConnectionHandler extends Thread{
 		
 		this.start();
 	}
+	
 	
 	
 	/** Description of run()
@@ -113,6 +116,7 @@ public class ConnectionHandler extends Thread{
 	}
 		
 	
+	
 	/**
 	 * Stop accepting new client requests.
 	 */
@@ -121,6 +125,7 @@ public class ConnectionHandler extends Thread{
 		acceptClients = false;
 		
 	}
+	
 	
 	
 	/**

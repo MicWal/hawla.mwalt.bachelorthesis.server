@@ -22,25 +22,9 @@ public class Constants {
 	public final static String REG_EXP ="\\d*";
 	
 	/*
-	 * 				SQL area
-	 */
-	private final static String SQL_TABLE = "bachelorthesis.game_data";
-	
-	public final static String SQL_ORDER = "DESC";
-	
-	public final static String SQL_STATEMENT = "SELECT * FROM " + SQL_TABLE + " WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp " + SQL_ORDER;
-	
-	public final static String SQL_STARTTIME = "SELECT MIN(timestamp) FROM " + SQL_TABLE;
-	
-	public final static String SQL_ENDTTIME = "SELECT MAX(timestamp) FROM " + SQL_TABLE;
-	
-	public final static String SQL_HEADER_INFO = "SELECT * FROM " + SQL_TABLE + " LIMIT 1";
-	
-	
-	
-	/*
 	 * 				Miscellaneous
 	 */
+	
 	public final static String SOCCER_SCHEMA_FILE = "resources/soccer_metadata.schema.json";
 	
 	public final static String CONFIG_FILE = "resources/config.properties";
