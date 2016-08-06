@@ -1,0 +1,1 @@
+java -jar GameServer.jar I:\BachelorarbeitCode\GameServer\metadata2.json
