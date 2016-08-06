@@ -84,6 +84,7 @@ public class DatabaseHandler {
 		String[] result = null;
 		
 		try {
+			
 			pstmt = con.prepareStatement(props.getProperty("SQL_STATEMENT"));
 			
 			pstmt.setLong(1, oldDate);
@@ -303,6 +304,8 @@ public class DatabaseHandler {
 	
 		return data.toArray(new String[data.size()]);
 	}
+	
+	
 	
 	
 	/**

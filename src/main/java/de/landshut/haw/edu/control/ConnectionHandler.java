@@ -50,6 +50,7 @@ public class ConnectionHandler extends Thread{
         }
 	
 		try {
+			
             serverSocket = new ServerSocket(port);
             
         } catch (IOException e) {

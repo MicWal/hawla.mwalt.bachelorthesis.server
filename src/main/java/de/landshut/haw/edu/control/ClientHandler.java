@@ -95,6 +95,7 @@ public class ClientHandler extends Thread {
 	}
 	
 	
+	
 	/**
 	 * Add a client to clients list.	
 	 * @param socket Socket of client.

@@ -1,0 +1,54 @@
+{
+	"balls":[
+		{"id": 4},
+		{"id": 8},
+		{"id": 10},
+		{"id": 12}
+	],
+
+	
+	"teams":[
+		{
+			"teamname": "FC Gelb", 
+			"members": [
+				{"name":"Nick Gertje", "left leg": 13, "right leg": 14, "left arm": 97, "right arm": 98},
+				{"name":"Dennis Dotterweich", "left leg": 47, "right leg": 16},
+				{"name":"Niklas Waelzlein", "left leg": 49, "right leg": 88},
+				{"name":"Wili Sommer", "left leg": 19, "right leg": 52},
+				{"name":"Philipp Harlass", "left leg": 53, "right leg": 54},
+				{"name":"Roman Hartleb", "left leg": 23, "right leg": 24},
+				{"name":"Erik Engelhardt", "left leg": 57, "right leg": 58},
+				{"name":"Sandro Schneider", "left leg": 59, "right leg": 28}
+			]
+		},
+		{
+			"teamname": "FC Rot",
+			"members": [
+				{"name":"Leon Krapf ", "left leg": 61, "right leg": 62, "left arm": 99, "right arm": 100},
+				{"name":"Kevin Baer", "left leg": 63, "right leg": 64},
+				{"name":"Luca Ziegler", "left leg": 65, "right leg": 66},
+				{"name":"Ben Mueller", "left leg": 67, "right leg": 68},
+				{"name":"Vale Reitstetter", "left leg": 69, "right leg": 38},
+				{"name":"Christopher Lee", "left leg": 71, "right leg": 40},
+				{"name":"Leon Heinze", "left leg": 73, "right leg": 74},
+				{"name":"Leo Langhans", "left leg": 75, "right leg": 44}
+			]
+		}
+	],
+		
+
+	"referees":[
+		{"name":"Referee", "left leg": 105, "right leg": 106} 
+	],
+	
+	"field": {
+		"left top": {"x": 0, "y": 33965, "z": 0},
+		"left bottom": {"x": -50, "y": -33960, "z": 0},
+		"right top": {"x": 52477, "y": 33941, "z": 0},
+		"right bottom": {"x": 52489, "y": -33939, "z": 0}
+	}
+	
+}
+
+
+
