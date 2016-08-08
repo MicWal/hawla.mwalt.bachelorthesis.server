@@ -18,3 +18,12 @@ Wichitg:
 	
 	    public final static String CONFIG_FILE = "resources/config.properties";
 	  auskommentiert werden. 
+
+
+Setup:
+	1. Erzeuge ein Schema/Datenbank in einer MYSQL Datenbank mit dem Namen 'bachelorthesis'.
+	2. Lade die SQL Dump Datei, welche alle Spieldaten enthält, mit dem Befehl in der MYSQL Shell:
+			mysql -u root -p[root_password] [database_name] < dumpfilename.sql
+	3. Passe in der 'config.properties' Datei die Anmeldedaten für den MYSQL Server an.
+		Die Datei befindet sich in der GamerServer.jar unter dem Pfad \src\main\resources\.
+		
