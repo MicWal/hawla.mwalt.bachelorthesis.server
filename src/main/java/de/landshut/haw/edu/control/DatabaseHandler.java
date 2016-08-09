@@ -113,6 +113,45 @@ public class DatabaseHandler {
 	
 	
 	
+	/** 
+	 * 	Load data from DB
+	 */
+	public String[] getSQLDataStringArray(long currentDate) {
+		
+		String[] result = null;
+		
+		try {
+			
+			pstmt = con.prepareStatement(props.getProperty("SQL_STATEMENT_2"));
+			
+			pstmt.setLong(1, currentDate);
+
+			rs = pstmt.executeQuery();
+						
+			result = prepareData(rs);
+			
+			rs.close();
+			
+			pstmt.close();
+			
+		} catch ( SQLException e ) {
+			
+			System.err.println("getSQLData SQLException.");
+			
+			System.exit(ErrorCodes.LOAD_SQL_ERR);
+			
+		} 
+		
+		return result;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Get data from SQL server and return result as array list.
 	 * @param oldDate min search parameter

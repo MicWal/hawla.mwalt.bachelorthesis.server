@@ -44,6 +44,10 @@ public class Constants {
 
 	public static final String DELIMETER = " ";
 
+	public static final long DEFAULT_ELAPSED = 5000000000L;
+
+	public static final long DEFAULT_PRINT_COUNT = 50000L;
+
 
 
 }

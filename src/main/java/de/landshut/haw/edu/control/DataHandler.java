@@ -48,52 +48,61 @@ public class DataHandler extends Thread {
 	
 	@Override
 	public void run() {
-		
-		final int SECONDS_POW = 1000;
-		
+				
 		int countBeforePrintln = 0;
 
 		int count = 0;
 		
 		String[] data;
 		
-//		ArrayList<ResultLine> data;
-		
-		long oldTimestamp = dbHandler.getMinTimestamp();
+		long startTimestamp = dbHandler.getMinTimestamp();
 
 		long endTimestamp = dbHandler.getMaxTimestamp();
 
-		long newTimestamp;
+		long currentTimestamp = startTimestamp;
 		
-//		long elapsedTime;
-		long elapsedTime = Long.parseLong(props.getProperty("elapsedTime"));
+		long oldTimestamp = 0;
 		
-		long snapshotSystemTime;
+		long elapsedTime = 0;
+		
+		if(props.getProperty("elapsedTime").matches(Constants.REG_EXP)) {
+			
+			elapsedTime = Long.parseLong(props.getProperty("elapsedTime"));
+			
+		} else {
+			
+			System.out.println("elapsedTime in config file is not a number. Using default elapsed time.");
+			
+			elapsedTime = Constants.DEFAULT_ELAPSED;
+		}
 				
 		cHandler.sendToAllClients(Constants.START_TRANSMISSION, dbHandler.getSQLHeaderData());
 		
-		snapshotSystemTime = System.nanoTime();
-		
 		if(props.getProperty("countBeforePrintln").matches((Constants.REG_EXP))){
+			
 			countBeforePrintln = Integer.parseInt(props.getProperty("countBeforePrintln"));
+			
+		} else {
+			
+			System.out.println("countBeforePrintln in config file is not a number. Using default countBeforePrintln.");
+			
+			elapsedTime = Constants.DEFAULT_PRINT_COUNT;
 		}
+		
+		
 		
 		do {
 
 			cHandler.clearClosedClients();
 			
-//			elapsedTime = (System.nanoTime() - snapshotSystemTime) * SECONDS_POW;
+			oldTimestamp = currentTimestamp;
 			
-			snapshotSystemTime = System.nanoTime() ;
-			
-			newTimestamp =  oldTimestamp + elapsedTime;
-			
-			data = dbHandler.getSQLDataStringArray(oldTimestamp, newTimestamp);
+			currentTimestamp += elapsedTime;
 
-		
-			oldTimestamp = newTimestamp;
+			data = dbHandler.getSQLDataStringArray(oldTimestamp, currentTimestamp);
 
-			if(newTimestamp > endTimestamp) {
+			
+			if(oldTimestamp > endTimestamp) {
 				
 				activeTransmission = false;
 				
@@ -112,7 +121,6 @@ public class DataHandler extends Thread {
 				count = 0;
 				
 			}
-			
 			
 		} while(activeTransmission);
 		
